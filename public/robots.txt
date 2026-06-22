@@ -1,4 +1,22 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
 User-agent: *
 Allow: /
 
-Sitemap: https://kirayape.com/sitemap.xml
+# Crawl-delay for general bots (in seconds)
+Crawl-delay: 1
+
+Sitemap: https://productmanagementjob.com/sitemap.xml
