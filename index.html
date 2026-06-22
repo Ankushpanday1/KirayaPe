@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KirayaPe - crafted for the modern renters</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -782,7 +783,9 @@
 
         /* Scroll Trigger Active States */
         .empower-section.active .section-label,
-        .empower-section.active .section-heading {
+        .empower-section.active .section-heading,
+        .audience-section.active .section-label,
+        .audience-section.active .section-heading {
             opacity: 1;
             transform: translateY(0);
         }
@@ -1006,7 +1009,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4rem;
+            gap: 1.5rem;
         }
 
         /* Audience Grid */
@@ -1015,6 +1018,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 2.5rem;
             width: 100%;
+            margin-top: 2.5rem;
         }
 
         /* Audience Cards */
@@ -2441,8 +2445,8 @@
                 <img src="logo.png" alt="KirayaPe Logo" class="brand-logo-img">
             </div>
             <nav class="nav-container">
-                <a href="#flat-finder" class="nav-link">AI Flat/PG Finder</a>
-                <a href="#audience" class="nav-link">LandLord</a>
+                <a href="flat-finder.html" class="nav-link">AI Flat/PG Finder</a>
+                <a href="landlord.html" class="nav-link">LandLord</a>
                 <a href="#download" class="nav-btn">Download App</a>
             </nav>
             <button class="menu-toggle" aria-label="Toggle navigation menu">
@@ -2501,7 +2505,7 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
                     </div>
                     <input type="text" class="ai-mock-input" readonly value="Looking for a 1BHK in Koramangala with a balcony, close to cafes, under 25k...">
-                    <button class="ai-search-btn">Find Matches</button>
+                    <button class="ai-search-btn" onclick="window.location.href='flat-finder.html'">Find Matches</button>
                 </div>
                 
                 <!-- Mock Results Grid -->
@@ -2641,6 +2645,7 @@
     <section class="audience-section" id="audience">
         <div class="section-container">
             <span class="section-label">rent payment app by <span class="highlight">KirayaPe</span></span>
+            <h2 class="section-heading">rent collection on autopilot with <span class="highlight">AI</span></h2>
             <div class="audience-grid">
                 <!-- Tenants Card -->
                 <div class="audience-card">
@@ -2665,6 +2670,10 @@
                     <div class="card-content">
                         <h3 class="card-title">For Home Owners</h3>
                         <p class="card-desc">Receive rent payments seamlessly and with confidence. KirayaPe helps simplify rent collection while creating a rewarding experience for the tenants who call your property home.</p>
+                        <a href="landlord.html" class="card-link" style="color: rgb(52, 211, 153); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; z-index: 5; transition: var(--transition-smooth);">
+                            Learn about AI Collection 
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
                     </div>
                     <div class="card-illustration">
                         <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
