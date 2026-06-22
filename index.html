@@ -1,0 +1,3477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KirayaPe - crafted for the modern renters</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           Design Tokens & Root Variables
+           ========================================================================== */
+        :root {
+            --bg-color: #050505;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --border-color-hover: rgba(255, 255, 255, 0.4);
+            --font-serif: 'denton', 'Playfair Display', Georgia, serif;
+            --font-sans: 'gilroy', 'Inter', system-ui, -apple-system, sans-serif;
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* ==========================================================================
+           Reset & Base Styles
+           ========================================================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ==========================================================================
+           Hero Container & Backgrounds
+           ========================================================================== */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem 4% 3rem 4%;
+            overflow: hidden;
+        }
+
+        /* 3D background image container */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            animation: zoomBg 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Dark Vignette Overlay to blend edges into pure black */
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at center, transparent 20%, rgba(5, 5, 5, 0.6) 60%, var(--bg-color) 95%),
+                linear-gradient(to bottom, var(--bg-color) 0%, transparent 15%, transparent 85%, var(--bg-color) 100%),
+                linear-gradient(to right, var(--bg-color) 0%, transparent 10%, transparent 90%, var(--bg-color) 100%);
+            z-index: 2;
+        }
+
+        /* ==========================================================================
+           Header Styles
+           ========================================================================== */
+        .header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            z-index: 10;
+            animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Logo container (Top Left) */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-container:hover {
+            transform: translateY(-1px);
+        }
+
+        .brand-logo-img {
+            height: 48px; /* Large premium size as requested */
+            width: auto;
+            transition: var(--transition-smooth);
+            opacity: 0.95;
+        }
+
+        .logo-container:hover .brand-logo-img {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+            opacity: 1;
+        }
+
+        /* Navigation Styles */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            letter-spacing: -0.1px;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.6rem 1.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 99px;
+            transition: var(--transition-smooth);
+            background: transparent;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* Hamburger Menu Icon */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 25;
+            padding: 0;
+        }
+
+        .menu-toggle span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        /* ==========================================================================
+           AI Flat/PG Finder Section
+           ========================================================================== */
+        .flat-finder-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center top, rgba(139, 92, 246, 0.04) 0%, transparent 65%);
+            padding: 7rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .flat-finder-section .section-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+        }
+
+        .section-desc-sub {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.55);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+        }
+
+        .flat-finder-section.active .section-desc-sub {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ai-finder-container {
+            width: 100%;
+            max-width: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+        }
+
+        .flat-finder-section.active .ai-finder-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ai-input-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+            gap: 0.8rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .ai-input-wrapper:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.1);
+        }
+
+        .ai-sparkle-icon {
+            color: hsl(265, 100%, 75%);
+            display: flex;
+            align-items: center;
+            animation: pulseSparkle 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseSparkle {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5)); }
+        }
+
+        .ai-mock-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .ai-search-btn {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, hsl(265, 100%, 70%) 0%, hsl(240, 100%, 70%) 100%);
+            border: none;
+            border-radius: 99px;
+            color: white;
+            padding: 0.75rem 1.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .ai-search-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            filter: brightness(1.05);
+        }
+
+        .ai-results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .ai-result-card {
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            gap: 1.2rem;
+            text-align: left;
+            transition: var(--transition-smooth);
+            align-items: center;
+        }
+
+        .ai-result-card:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .card-img-placeholder {
+            width: 90px;
+            height: 90px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .ai-result-card:nth-child(1) .card-img-placeholder {
+            background-image: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(5, 5, 5, 0.8) 100%);
+        }
+
+        .ai-result-card:nth-child(2) .card-img-placeholder {
+            background-image: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(5, 5, 5, 0.8) 100%);
+        }
+
+        .ai-badge {
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.58rem;
+            font-weight: 700;
+            background-color: hsl(265, 100%, 70%);
+            color: white;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+            white-space: nowrap;
+        }
+
+        .ai-result-card:nth-child(2) .ai-badge {
+            background-color: hsl(210, 100%, 60%);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            flex: 1;
+        }
+
+        .card-info h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-info p {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .card-tags span {
+            font-size: 0.65rem;
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+        }
+
+        /* ==========================================================================
+           Main Title & Hero Content
+           ========================================================================== */
+        .main-content {
+            position: relative;
+            text-align: center;
+            max-width: 1100px;
+            margin: 10vh auto 0 auto; /* Generous gap below the logo header */
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5vh;
+        }
+
+        .main-title {
+            font-family: var(--font-serif);
+            font-size: 114px;
+            font-weight: 700;
+            line-height: 100px;
+            letter-spacing: -0.4px;
+            color: var(--text-primary);
+            margin-bottom: 2.2rem;
+            text-transform: lowercase;
+        }
+
+        .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: revealWord 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: calc(var(--word-index) * 0.3s); /* Word-by-word reveal */
+        }
+
+        .main-subtitle {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 580px;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+        }
+
+        /* ==========================================================================
+           Download Widget (Bottom Right)
+           ========================================================================== */
+        .download-widget {
+            position: relative;
+            align-self: flex-end;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            background-color: rgba(5, 5, 5, 0.55);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0.9rem;
+            border-radius: 2px;
+            z-index: 10;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            opacity: 0;
+            transform: translateX(30px);
+            animation: fadeInRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+        }
+
+        .download-widget:hover {
+            border-color: var(--border-color-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .qr-container {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            padding: 2px;
+            border-radius: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.9rem;
+        }
+
+        .qr-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .download-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text-top {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+
+        .text-bottom {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            line-height: 1.2;
+            margin-top: 1px;
+        }
+
+        /* ==========================================================================
+           Who We Empower Section
+           ========================================================================== */
+        .empower-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, rgba(129, 140, 248, 0.04) 0%, transparent 60%);
+            padding: 7rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .empower-section .section-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* "Who we empower" Label */
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: hsl(265, 100%, 75%); /* Glowing elegant premium violet */
+            text-shadow: 0 0 15px rgba(153, 69, 243, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Heading with Denton Serif Font */
+        .section-heading {
+            font-family: var(--font-serif);
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.8px;
+            color: var(--text-primary);
+            max-width: 950px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+
+        /* Custom highlighted text style for 'renters' and 'landlords' */
+        .highlight {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            background: linear-gradient(135deg, hsl(265, 100%, 75%) 0%, hsl(240, 100%, 75%) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(129, 140, 248, 0.15);
+        }
+
+        /* ==========================================================================
+           Features Grid Section ("What for Renters")
+           ========================================================================== */
+        .features-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center bottom, rgba(129, 140, 248, 0.03) 0%, transparent 60%);
+            padding: 7rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .features-section .section-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* Feature Cards with Glassmorphism */
+        .feature-card {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 3rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 1.8rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(30px);
+            overflow: hidden;
+        }
+
+        /* Ambient flashlight glow behind card contents */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(350px circle at 50% 0px, rgba(129, 140, 248, 0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.025);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.75), 0 0 25px rgba(129, 140, 248, 0.04);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Icon style matching the brand's aesthetic */
+        .feature-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            color: hsl(265, 100%, 75%);
+            transition: var(--transition-smooth);
+            z-index: 2;
+        }
+
+        .feature-card:hover .feature-icon {
+            background-color: rgba(129, 140, 248, 0.1);
+            border-color: rgba(129, 140, 248, 0.35);
+            color: hsl(265, 100%, 80%);
+            box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+        }
+
+        /* Feature Content Wrapper */
+        .feature-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.6rem;
+            z-index: 2;
+            width: 100%;
+        }
+
+        /* Feature Title */
+        .feature-title {
+            font-family: var(--font-sans);
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+
+        /* Feature Description */
+        .feature-desc {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.45);
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card:hover .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Coming Soon Badges and specific styling */
+        .feature-card.coming-soon {
+            opacity: 0.55;
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.005);
+        }
+
+        .feature-card.coming-soon:hover {
+            opacity: 1;
+            border-color: rgba(129, 140, 248, 0.2);
+            border-style: solid;
+        }
+
+        .feature-card.coming-soon .feature-icon {
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .feature-card.coming-soon:hover .feature-icon {
+            color: hsl(265, 100%, 75%);
+            border-color: rgba(129, 140, 248, 0.25);
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            font-size: 0.58rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 99px;
+            background-color: rgba(129, 140, 248, 0.05);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            color: hsl(265, 100%, 75%);
+            z-index: 3;
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card.coming-soon:hover .coming-soon-badge {
+            background-color: rgba(129, 140, 248, 0.1);
+            border-color: hsl(265, 100%, 75%);
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.25);
+        }
+
+        /* Scroll Trigger Active States */
+        .empower-section.active .section-label,
+        .empower-section.active .section-heading {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features-section.active .section-heading {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .features-section.active .feature-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cascade reveal delays for features */
+        .features-section.active .feature-card:nth-child(1) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .features-section.active .feature-card:nth-child(2) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .features-section.active .feature-card:nth-child(3) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .features-section.active .feature-card:nth-child(4) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+        .features-section.active .feature-card:nth-child(5) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.5s ease; }
+
+        /* ==========================================================================
+           Animations
+           ========================================================================== */
+        @keyframes zoomBg {
+            from {
+                transform: scale(1.08);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes revealWord {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ==========================================================================
+           Brands Section
+           ========================================================================== */
+        .brands-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 7rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            overflow: hidden;
+        }
+
+        .brands-section .section-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+        }
+
+        .brands-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 4rem;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brands-section.active .brands-header {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .brands-title {
+            font-family: var(--font-serif);
+            font-size: 54px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.6px;
+            color: var(--text-primary);
+            text-transform: lowercase;
+            flex: 1;
+        }
+
+        .brands-description {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.55);
+            max-width: 520px;
+            flex: 1.2;
+        }
+
+        /* Horizontal Scrolling Marquee */
+        .brands-marquee-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            padding: 2rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+
+        .brands-section.active .brands-marquee-wrapper {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .brands-marquee-wrapper::before,
+        .brands-marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 15%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .brands-marquee-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-color) 0%, transparent 100%);
+        }
+
+        .brands-marquee-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-color) 0%, transparent 100%);
+        }
+
+        .brands-marquee {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 4rem;
+            animation: marquee 25s linear infinite;
+            white-space: nowrap;
+            align-items: center;
+        }
+
+        .marquee-track span {
+            font-family: var(--font-sans);
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            transition: color 0.4s ease, text-shadow 0.4s ease;
+            cursor: default;
+        }
+
+        .marquee-track span:hover {
+            color: hsl(265, 100%, 75%);
+            text-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ==========================================================================
+           Audience Section ("For Tenants / For Owners")
+           ========================================================================== */
+        .audience-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at center, rgba(129, 140, 248, 0.02) 0%, transparent 70%);
+            padding: 7rem 4% 9rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .audience-section .section-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        /* Audience Grid */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            width: 100%;
+        }
+
+        /* Audience Cards */
+        .audience-card {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.012);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 4rem 3rem 14rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(30px);
+            overflow: hidden;
+        }
+
+        .audience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(400px circle at 50% 0px, rgba(129, 140, 248, 0.06), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .audience-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+            background-color: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(129, 140, 248, 0.03);
+            transform: translateY(-4px);
+        }
+
+        .audience-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Audience Section triggers */
+        .audience-section.active .audience-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .audience-section.active .audience-card:nth-child(1) { transition-delay: 0.1s; }
+        .audience-section.active .audience-card:nth-child(2) { transition-delay: 0.2s; }
+
+        /* Card Badge */
+        .card-badge {
+            align-self: flex-start;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 99px;
+            z-index: 2;
+        }
+
+        .tenant-badge {
+            background-color: rgba(129, 140, 248, 0.05);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            color: hsl(260, 100%, 75%);
+        }
+
+        .owner-badge {
+            background-color: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            color: rgb(52, 211, 153);
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-family: var(--font-sans);
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+        }
+
+        .card-desc {
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.5);
+            transition: var(--transition-smooth);
+        }
+
+        .audience-card:hover .card-desc {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* Card Illustration */
+        .card-illustration {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.08);
+            transition: var(--transition-smooth);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .audience-card:hover .card-illustration {
+            color: hsl(265, 100%, 75%);
+            transform: translateX(-50%) translateY(-10px) scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(129, 140, 248, 0.25));
+        }
+
+        .audience-card:hover:has(.owner-badge) .card-illustration {
+            color: rgb(52, 211, 153);
+            filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.25));
+        }
+
+        /* ==========================================================================
+           Responsive Media Queries
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .main-title {
+                font-size: 86px;
+                line-height: 80px;
+            }
+            .hero-container {
+                padding: 2.5rem 5% 2.5rem 5%;
+            }
+            .section-heading {
+                font-size: 52px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                justify-content: flex-start;
+                gap: 3rem;
+                height: auto;
+                min-height: 100vh;
+                overflow: hidden;
+                padding: 2rem 6%;
+            }
+
+            .header {
+                align-items: center;
+                width: 100%;
+            }
+
+            /* Responsive Navigation Styles */
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-container {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(5, 5, 5, 0.98);
+                backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2.5rem;
+                transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 15;
+            }
+
+            .nav-container.open {
+                right: 0;
+            }
+
+            .menu-toggle.open span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.open span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.open span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .ai-results-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .ai-input-wrapper {
+                padding: 0.4rem 0.4rem 0.4rem 1rem;
+            }
+
+            .ai-mock-input {
+                font-size: 0.9rem;
+            }
+
+            .ai-search-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .main-content {
+                margin: 4rem 0 auto 0;
+            }
+
+            .main-title {
+                font-size: 86px;
+                line-height: 80px;
+                margin-bottom: 1.8rem;
+            }
+
+            .main-subtitle {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .download-widget {
+                align-self: center;
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .empower-section {
+                padding: 5rem 6%;
+            }
+
+            .section-heading {
+                font-size: 42px;
+                line-height: 1.3;
+            }
+
+            .section-label {
+                font-size: 0.75rem;
+                letter-spacing: 0.25em;
+            }
+
+            .features-section {
+                padding: 5rem 6%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .feature-card {
+                padding: 2.2rem 1.8rem;
+            }
+
+            .brands-section {
+                padding: 5rem 6%;
+            }
+
+            .brands-header {
+                flex-direction: column;
+                gap: 1.8rem;
+            }
+
+            .brands-title {
+                font-size: 42px;
+            }
+
+            .brands-description {
+                font-size: 0.95rem;
+                max-width: 100%;
+            }
+
+            .audience-section {
+                padding: 5rem 6% 7rem 6%;
+            }
+
+            .audience-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .audience-card {
+                padding: 3rem 2.2rem 12rem 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-container {
+                padding: 1.5rem 5%;
+                gap: 2rem;
+            }
+
+            .logo-container {
+                transform: scale(0.9);
+            }
+
+            .main-title {
+                font-size: 52px;
+                line-height: 48px;
+            }
+
+            .main-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .empower-section {
+                padding: 4rem 5%;
+            }
+
+            .section-heading {
+                font-size: 32px;
+                line-height: 1.35;
+            }
+
+            .heading-br {
+                display: none;
+            }
+
+            .features-section {
+                padding: 4rem 5%;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .brands-section {
+                padding: 4rem 5%;
+            }
+
+            .brands-title {
+                font-size: 32px;
+            }
+
+            .marquee-track {
+                gap: 2.5rem;
+            }
+
+            .marquee-track span {
+                font-size: 1.25rem;
+            }
+
+            .audience-section {
+                padding: 4rem 5% 5rem 5%;
+            }
+
+            .audience-card {
+                padding: 2.5rem 1.8rem 10rem 1.8rem;
+            }
+
+            .card-title {
+                font-size: 1.35rem;
+            }
+
+            .card-desc {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* ==========================================================================
+           KirayaPe RentPay Section Styles
+           ========================================================================== */
+        .rentpay-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at left center, rgba(139, 92, 246, 0.03) 0%, transparent 60%);
+            padding: 8rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            overflow: hidden;
+        }
+
+        .cashback-content {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2rem;
+            padding-right: 5%;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rentpay-section.active .cashback-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cashback-title {
+            font-family: var(--font-serif);
+            font-size: 76px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1.2px;
+            color: var(--text-primary);
+            text-transform: lowercase;
+        }
+
+        .cashback-desc {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 520px;
+            text-transform: lowercase;
+        }
+
+        .mockup-column {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(45px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+
+        .rentpay-section.active .mockup-column {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sleek Phone Mockup Container */
+        .phone-card {
+            width: 320px;
+            height: 560px;
+            background-color: #0b0b0d;
+            border: 8px solid #27272a;
+            border-radius: 44px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(139, 92, 246, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem 2.2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .phone-card:hover {
+            border-color: #3f3f46;
+            transform: translateY(-5px);
+            box-shadow: 
+                0 30px 60px rgba(139, 92, 246, 0.12),
+                0 25px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Inner Phone UI Elements */
+        .phone-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 2;
+        }
+
+        .phone-brand-logo {
+            color: hsl(265, 100%, 75%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.3));
+        }
+
+        .phone-brand-text {
+            font-family: var(--font-sans);
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.45);
+            text-transform: lowercase;
+        }
+
+        .phone-illustration {
+            position: relative;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .illustration-svg {
+            overflow: visible;
+        }
+
+        /* SVG Inner Animations on Hover */
+        .ill-card {
+            transition: var(--transition-smooth);
+            transform-origin: center;
+        }
+
+        .ill-medal {
+            transition: var(--transition-smooth);
+            transform-origin: center;
+        }
+
+        .ill-house {
+            transition: var(--transition-smooth);
+            transform-origin: center;
+        }
+
+        .phone-card:hover .ill-card {
+            transform: translateY(-8px) rotate(3deg);
+            filter: drop-shadow(0 12px 20px rgba(139, 92, 246, 0.35));
+        }
+
+        .phone-card:hover .ill-medal {
+            transform: translateY(-4px) scale(1.06);
+            filter: drop-shadow(0 6px 12px rgba(52, 211, 153, 0.35));
+        }
+
+        .phone-card:hover .ill-house {
+            transform: scale(0.97);
+        }
+
+        .phone-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .phone-footer-title {
+            font-family: var(--font-sans);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            text-transform: lowercase;
+        }
+
+        .phone-footer-sub {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.05em;
+            text-transform: lowercase;
+        }
+
+        /* Phone Ambient Glow Overlay */
+        .phone-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.03) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .rentpay-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 5rem 6%;
+                gap: 4rem;
+            }
+
+            .cashback-content {
+                align-items: center;
+                padding-right: 0;
+            }
+
+            .cashback-title {
+                font-size: 48px;
+            }
+
+            .cashback-desc {
+                font-size: 0.95rem;
+                max-width: 100%;
+            }
+        }
+
+        /* ==========================================================================
+           Why Choose & Security Section Styles
+           ========================================================================== */
+        .security-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 6rem 4% 8rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .security-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            gap: 2.5rem;
+            justify-content: center;
+        }
+
+        .security-card {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.012);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 3.5rem 3rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .security-section.active .security-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .security-section.active .security-card:nth-child(1) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .security-section.active .security-card:nth-child(2) { transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+
+        .security-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .comparison-card::before {
+            background: radial-gradient(400px circle at 50% 0px, rgba(139, 92, 246, 0.05), transparent 70%);
+        }
+
+        .trust-card::before {
+            background: radial-gradient(400px circle at 50% 0px, rgba(20, 184, 166, 0.05), transparent 70%);
+        }
+
+        .security-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7);
+        }
+
+        .comparison-card:hover {
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(139, 92, 246, 0.03);
+        }
+
+        .trust-card:hover {
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(20, 184, 166, 0.03);
+        }
+
+        .panel-title {
+            font-family: var(--font-sans);
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: -0.4px;
+            color: var(--text-primary);
+            z-index: 2;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .comp-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .traditional-col {
+            padding-right: 2rem;
+        }
+
+        .brand-col {
+            padding-left: 2rem;
+        }
+
+        .comp-header {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .brand-name-header {
+            color: hsl(265, 100%, 75%);
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .comp-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .comp-list li {
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.65);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cross-icon {
+            color: #ef4444;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .check-icon {
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* VS Divider */
+        .vs-divider {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            margin: 0 1rem;
+        }
+
+        .vs-circle {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, hsl(265, 100%, 70%) 0%, hsl(240, 100%, 70%) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 3;
+        }
+
+        /* Trust Card specific layout */
+        .trust-card {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .trust-content {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+            z-index: 2;
+        }
+
+        .trust-features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .trust-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            background-color: rgba(20, 184, 166, 0.06);
+            border: 1px solid rgba(20, 184, 166, 0.25);
+            color: rgb(45, 212, 191);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .trust-card:hover .trust-icon-box {
+            background-color: rgba(20, 184, 166, 0.12);
+            border-color: rgba(20, 184, 166, 0.5);
+            box-shadow: 0 0 12px rgba(20, 184, 166, 0.2);
+        }
+
+        .trust-text h4 {
+            font-family: var(--font-sans);
+            font-size: 0.98rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .shield-mockup-wrapper {
+            flex: 0.8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* Shield Rotations */
+        .ring-fore {
+            animation: spinOrbit 8s linear infinite;
+            transform-origin: 60px 65px;
+        }
+
+        .ring-back {
+            animation: spinOrbit 12s linear infinite reverse;
+            transform-origin: 60px 65px;
+        }
+
+        @keyframes spinOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            .trust-card {
+                flex-direction: column;
+                gap: 3rem;
+                align-items: flex-start;
+            }
+            .shield-mockup-wrapper {
+                align-self: center;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .security-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .security-card {
+                padding: 2.5rem 2rem;
+            }
+
+            .comparison-grid {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .vs-divider {
+                height: 1px;
+                width: 100%;
+                margin: 1.5rem 0;
+            }
+
+            .vs-circle {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .traditional-col {
+                padding-right: 0;
+            }
+
+            .brand-col {
+                padding-left: 0;
+            }
+        }
+
+        /* Lock Icon Hover Animations */
+        .lock-shackle {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: bottom center;
+        }
+
+        .trust-card:hover .lock-shackle {
+            transform: translateY(-5px);
+        }
+
+        .lock-body {
+            transition: var(--transition-smooth);
+        }
+
+        .trust-card:hover .lock-body {
+            fill: rgba(20, 184, 166, 0.1);
+            filter: drop-shadow(0 0 15px rgba(20, 184, 166, 0.25));
+        }
+
+        /* ==========================================================================
+           Story Section Styles
+           ========================================================================== */
+        .story-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 8rem 6% 10rem 6%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            overflow: hidden;
+            background-image: radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.035) 0%, transparent 60%);
+        }
+
+        .story-container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            gap: 4rem;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .story-left {
+            flex: 1;
+            position: sticky;
+            top: 120px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .story-title {
+            font-family: var(--font-serif);
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -1.2px;
+            color: var(--text-primary);
+            text-transform: lowercase;
+        }
+
+        .story-right {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            max-width: 620px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+
+        .story-section.active .story-left {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-section.active .story-right {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-right p {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .story-highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .story-welcome {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .story-container {
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            .story-left {
+                position: static;
+            }
+
+            .story-title {
+                font-size: 44px;
+                line-height: 1.2;
+            }
+
+            .story-right p {
+                font-size: 0.98rem;
+                line-height: 1.65;
+            }
+        }
+
+        /* ==========================================================================
+           FAQ Section Styles
+           ========================================================================== */
+        .faq-section {
+            position: relative;
+            width: 100%;
+            background-color: var(--bg-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            z-index: 10;
+        }
+
+        /* FAQs Toggle Bar */
+        .faq-toggle-bar {
+            width: 100%;
+            padding: 3rem 4%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+
+        .faq-toggle-bar:hover {
+            background-color: rgba(255, 255, 255, 0.015);
+        }
+
+        .faq-toggle-text {
+            font-family: var(--font-sans);
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .faq-toggle-icon {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            color: rgba(255, 255, 255, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .faq-toggle-bar.open .faq-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* FAQ Content Panel */
+        .faq-content-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+        }
+
+        .faq-content-wrapper.open {
+            /* Handled dynamically via JavaScript */
+        }
+
+        .faq-inner-container {
+            max-width: 850px;
+            width: 90%;
+            margin: 1rem auto 8rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .faq-main-title {
+            font-family: var(--font-serif);
+            font-size: 54px;
+            font-weight: 700;
+            text-transform: lowercase;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        /* Accordion Item */
+        .faq-item {
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background-color: rgba(255, 255, 255, 0.015);
+        }
+
+        .faq-question-btn {
+            width: 100%;
+            padding: 1.8rem 2.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .faq-question-text {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            padding-right: 2rem;
+            letter-spacing: 0.01em;
+        }
+
+        .faq-item-icon {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.45);
+            transition: transform 0.4s ease, color 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .faq-answer-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .faq-answer-content {
+            padding: 0 2.2rem 2.2rem 2.2rem;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Active Accordion Item */
+        .faq-item.active {
+            border-color: rgba(139, 92, 246, 0.25);
+            background-color: rgba(139, 92, 246, 0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .faq-item.active .faq-item-icon {
+            transform: rotate(45deg);
+            color: hsl(265, 100%, 75%);
+        }
+
+        /* ==========================================================================
+           Footer Section Styles
+           ========================================================================== */
+        .footer-section {
+            width: 100%;
+            background-color: #050505;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 6rem 6% 4rem 6%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+
+        .footer-brand-col {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            flex: 1.2;
+            min-width: 250px;
+        }
+
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            align-self: flex-start;
+            opacity: 0.95;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-logo:hover {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .social-icon-btn {
+            color: rgba(255, 255, 255, 0.55);
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon-btn:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+        }
+
+        .footer-badge-col {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex: 0.8;
+            min-width: 120px;
+        }
+
+        .footer-badge-card {
+            width: 54px;
+            height: 54px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), inset 0 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .footer-badge-card::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 12px;
+            width: 10px;
+            height: 10px;
+            background-color: #ffffff;
+            transform: rotate(45deg);
+            border-bottom-right-radius: 2px;
+        }
+
+        .pink-circle {
+            width: 36px;
+            height: 36px;
+            background-color: #d946ef;
+            background-image: linear-gradient(135deg, #d946ef 0%, #ec4899 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .footer-products-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .products-title {
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .products-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .products-link {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: inline-block;
+        }
+
+        .products-link:hover {
+            color: hsl(265, 100%, 75%);
+            transform: translateX(2px);
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            width: 100%;
+            margin: 5rem auto 0 auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-copy {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .legal-link {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.35);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .legal-link:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 4rem;
+            }
+
+            .footer-brand-col {
+                align-items: center;
+            }
+
+            .footer-logo {
+                align-self: center;
+            }
+
+            .footer-badge-col {
+                justify-content: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+                margin-top: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <!-- Background Overlay -->
+        <div class="bg-image"></div>
+        <div class="bg-overlay"></div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="logo.png" alt="KirayaPe Logo" class="brand-logo-img">
+            </div>
+            <nav class="nav-container">
+                <a href="#renters-features" class="nav-link">Tenant</a>
+                <a href="#flat-finder" class="nav-link">AI Flat/PG Finder</a>
+                <a href="#audience" class="nav-link">LandLord</a>
+                <a href="#download" class="nav-btn">Download App</a>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <h1 class="main-title">
+                <span class="word" style="--word-index: 0;">crafted</span>
+                <span class="word" style="--word-index: 1;">for</span>
+                <span class="word" style="--word-index: 2;">the</span><br>
+                <span class="word" style="--word-index: 3;">modern</span>
+                <span class="word" style="--word-index: 4;">renters</span>
+            </h1>
+            <p class="main-subtitle">KirayaPe is a members-only club that turns rent into rewards, stronger credit, and financial growth.</p>
+        </main>
+
+        <!-- Bottom Right Download Widget -->
+        <div class="download-widget">
+            <div class="qr-container">
+                <img src="qrcode.png" alt="QR Code to Download KirayaPe" class="qr-image">
+            </div>
+            <div class="download-text">
+                <span class="text-top">download</span>
+                <span class="text-bottom">KirayaPe</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Who We Empower Section -->
+    <section class="empower-section" id="empower">
+        <div class="section-container">
+            <span class="section-label">Who we empower</span>
+            <h2 class="section-heading">
+                Financial flexibility for <span class="highlight highlight-renters">renters</span>.<br class="heading-br">
+                Effortless management for <span class="highlight highlight-landlords">landlords</span>.
+            </h2>
+        </div>
+    </section>
+
+    <!-- AI Flat/PG Finder Section -->
+    <section class="flat-finder-section" id="flat-finder">
+        <div class="section-container">
+            <span class="section-label">Introducing</span>
+            <h2 class="section-heading">AI Flat & PG Finder</h2>
+            <p class="section-desc-sub">Find your next home in seconds. Describe what you're looking for in plain English and let our AI handle the rest.</p>
+            
+            <div class="ai-finder-container">
+                <!-- Mock AI Prompt Input -->
+                <div class="ai-input-wrapper">
+                    <div class="ai-sparkle-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                    </div>
+                    <input type="text" class="ai-mock-input" readonly value="Looking for a 1BHK in Koramangala with a balcony, close to cafes, under 25k...">
+                    <button class="ai-search-btn">Find Matches</button>
+                </div>
+                
+                <!-- Mock Results Grid -->
+                <div class="ai-results-grid">
+                    <div class="ai-result-card">
+                        <div class="card-img-placeholder">
+                            <span class="ai-badge">98% Match</span>
+                        </div>
+                        <div class="card-info">
+                            <h4>Skylight Premium 1BHK</h4>
+                            <p>Koramangala 4th Block • ₹24,500/mo</p>
+                            <div class="card-tags">
+                                <span>Balcony</span>
+                                <span>Cafes Nearby</span>
+                                <span>Zero Deposit</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-result-card">
+                        <div class="card-img-placeholder">
+                            <span class="ai-badge">94% Match</span>
+                        </div>
+                        <div class="card-info">
+                            <h4>The Nomad Nest PG</h4>
+                            <p>Koramangala 7th Block • ₹18,000/mo</p>
+                            <div class="card-tags">
+                                <span>Co-working</span>
+                                <span>Gym</span>
+                                <span>Food Included</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What for Renters Section -->
+    <section class="features-section" id="renters-features">
+        <div class="section-container">
+            <h2 class="section-heading">What for Renters</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Earn rewards on your rent</h3>
+                        <p class="feature-desc">Get cash back, exclusive brand vouchers, and reward points every time you pay rent through KirayaPe.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Chance to win exclusive gifts</h3>
+                        <p class="feature-desc">Enter weekly member draws to win high-end tech, luxury stays, and curated products.</p>
+                    </div>
+                </div>
+                <div class="feature-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Build and increase your credit score</h3>
+                        <p class="feature-desc">Report your timely rent payments automatically to credit bureaus to boost your score.</p>
+                    </div>
+                </div>
+                <div class="feature-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12" y2="18"></line><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Access loans for Rent Payment</h3>
+                        <p class="feature-desc">Short on cash? Avail instant low-interest short-term credit to keep your rent schedule spotless.</p>
+                    </div>
+                </div>
+                <div class="feature-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Secured Deposit Guarantee</h3>
+                        <p class="feature-desc">Avoid heavy security deposits. Pay a small monthly fee instead, backed by KirayaPe protection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands-section" id="brands">
+        <div class="section-container">
+            <div class="brands-header">
+                <h2 class="brands-title">rewards from<br>brands you love</h2>
+                <p class="brands-description">
+                    because loyalty should go both ways. Handpicked perks from the names you know, trust, and use every day. Enjoy tailored offers and exclusive benefits curated just for you because the brands you love should love you back. It's not just about earning points; it's about maximizing value where it matters most to you.
+                </p>
+            </div>
+            <!-- Horizontal Scrolling brand marquee -->
+            <div class="brands-marquee-wrapper">
+                <div class="brands-marquee">
+                    <div class="marquee-track">
+                        <span>JOCKEY</span>
+                        <span>MARKS & SPENCER</span>
+                        <span>make my trip</span>
+                        <span>THIRD WAVE COFFEE</span>
+                        <span>lenskart</span>
+                        <span>Eat Sure</span>
+                        <span>PVR INOX</span>
+                        <span>IKEA</span>
+                        <span>goibibo</span>
+                        <span>Domino's</span>
+                        <!-- Duplicate for Infinite Loop -->
+                        <span>JOCKEY</span>
+                        <span>MARKS & SPENCER</span>
+                        <span>make my trip</span>
+                        <span>THIRD WAVE COFFEE</span>
+                        <span>lenskart</span>
+                        <span>Eat Sure</span>
+                        <span>PVR INOX</span>
+                        <span>IKEA</span>
+                        <span>goibibo</span>
+                        <span>Domino's</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audience Section -->
+    <section class="audience-section" id="audience">
+        <div class="section-container">
+            <span class="section-label">rent payment app by <span class="highlight">KirayaPe</span></span>
+            <div class="audience-grid">
+                <!-- Tenants Card -->
+                <div class="audience-card">
+                    <span class="card-badge tenant-badge">Tenant</span>
+                    <div class="card-content">
+                        <h3 class="card-title">For the Tenants</h3>
+                        <p class="card-desc">You may not own the house, but you've made it your home. KirayaPe rewards you for every rent payment, turning monthly responsibilities into meaningful benefits you'll actually enjoy.</p>
+                    </div>
+                    <div class="card-illustration">
+                        <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="25" y="45" width="70" height="50" rx="4" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" fill="rgba(255,255,255,0.01)"/>
+                            <path d="M20 45H100V40H20V45Z" fill="currentColor"/>
+                            <path d="M50 20C50 20 52 15 60 15C68 15 70 20 70 20C70 20 75 18 80 23C85 28 80 33 80 33C80 33 82 40 75 40C68 40 60 30 60 30C60 30 52 40 45 40C38 40 40 33 40 33C40 33 35 28 40 23C45 18 50 20 50 20Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <path d="M60 40V95" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M25 70H95" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Home Owners Card -->
+                <div class="audience-card">
+                    <span class="card-badge owner-badge">Home Owner</span>
+                    <div class="card-content">
+                        <h3 class="card-title">For Home Owners</h3>
+                        <p class="card-desc">Receive rent payments seamlessly and with confidence. KirayaPe helps simplify rent collection while creating a rewarding experience for the tenants who call your property home.</p>
+                    </div>
+                    <div class="card-illustration">
+                        <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 60L60 25L100 60V95H20V60Z" stroke="currentColor" stroke-width="1.5" fill="rgba(255,255,255,0.01)"/>
+                            <rect x="48" y="65" width="24" height="30" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            <circle cx="54" cy="80" r="1.5" fill="currentColor"/>
+                            <rect x="32" y="48" width="16" height="16" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
+                            <rect x="72" y="48" width="16" height="16" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KirayaPe RentPay Section -->
+    <section class="rentpay-section" id="rentpay">
+        <div class="cashback-content">
+            <h2 class="cashback-title">
+                more cash<br>
+                in your pockets.
+            </h2>
+            <p class="cashback-desc">
+                switch to KirayaPe RentPay and start paying rent with your credit card. this way you get up to 45 days of credit free period, more reward points and a happy landlord.
+            </p>
+        </div>
+        
+        <div class="mockup-column">
+            <!-- Mobile Screen Mockup Card -->
+            <div class="phone-card">
+                <div class="phone-header">
+                    <div class="phone-brand-logo">
+                        <!-- Custom minimal house SVG logo -->
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                    </div>
+                    <span class="phone-brand-text">rentpay</span>
+                </div>
+                
+                <div class="phone-illustration">
+                    <!-- SVG illustration of home, credit card and rewards medal badge -->
+                    <svg class="illustration-svg" width="200" height="180" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- House -->
+                        <g class="ill-house">
+                            <rect x="30" y="90" width="70" height="60" rx="4" fill="rgba(139, 92, 246, 0.1)" stroke="hsl(265, 100%, 75%)" stroke-width="1.5"/>
+                            <path d="M25 90L65 55L105 90" stroke="hsl(265, 100%, 75%)" stroke-width="2" stroke-linecap="round"/>
+                            <rect x="55" y="115" width="20" height="35" rx="2" fill="none" stroke="hsl(265, 100%, 75%)" stroke-width="1.5"/>
+                        </g>
+                        
+                        <!-- Credit Card (floating slightly behind and to the right) -->
+                        <g class="ill-card">
+                            <rect x="80" y="70" width="85" height="53" rx="6" fill="#0c0a1c" stroke="hsl(265, 100%, 75%)" stroke-width="1.5" filter="drop-shadow(0 8px 15px rgba(0,0,0,0.5))"/>
+                            <rect x="90" y="80" width="14" height="10" rx="1.5" fill="hsl(265, 100%, 75%)" opacity="0.8"/>
+                            <line x1="90" y1="100" x2="145" y2="100" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                            <line x1="90" y1="108" x2="130" y2="108" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                            <!-- Diagonal Brand Glow Stripe -->
+                            <path d="M81 112L164 80" stroke="rgba(139, 92, 246, 0.25)" stroke-width="3"/>
+                        </g>
+                        
+                        <!-- Reward Medal Badge -->
+                        <g class="ill-medal">
+                            <!-- Ribbon -->
+                            <path d="M152 105L143 138L152 133L161 138L152 105Z" fill="rgb(52, 211, 153)" stroke="rgb(16, 185, 129)" stroke-width="1"/>
+                            <!-- Circle Medal -->
+                            <circle cx="152" cy="105" r="13" fill="url(#medal-grad)" stroke="rgb(251, 191, 36)" stroke-width="1.5"/>
+                            <circle cx="152" cy="105" r="7" fill="none" stroke="rgb(251, 191, 36)" stroke-width="1"/>
+                        </g>
+                        
+                        <defs>
+                            <linearGradient id="medal-grad" x1="139" y1="92" x2="165" y2="118" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="rgb(251, 191, 36)"/>
+                                <stop offset="100%" stop-color="rgb(217, 119, 6)"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <div class="phone-footer">
+                    <h3 class="phone-footer-title">pay your rent<br>on KirayaPe</h3>
+                    <span class="phone-footer-sub">do more with your credit card</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose & Security Section -->
+    <section class="security-section" id="security">
+        <div class="security-container">
+            <!-- Left Card: Comparison Panel -->
+            <div class="security-card comparison-card">
+                <h3 class="panel-title">Why Choose KirayaPe?</h3>
+                <div class="comparison-grid">
+                    <!-- Traditional Payments -->
+                    <div class="comp-col traditional-col">
+                        <h4 class="comp-header">Traditional Payments</h4>
+                        <ul class="comp-list">
+                            <li><span class="cross-icon">✕</span> No Rewards</li>
+                            <li><span class="cross-icon">✕</span> No Added Benefits</li>
+                            <li><span class="cross-icon">✕</span> Same Experience Every Month</li>
+                            <li><span class="cross-icon">✕</span> Manual & Time Consuming</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- VS Divider -->
+                    <div class="vs-divider">
+                        <div class="vs-circle">VS</div>
+                    </div>
+                    
+                    <!-- KirayaPe -->
+                    <div class="comp-col brand-col">
+                        <h4 class="comp-header brand-name-header">KirayaPe</h4>
+                        <ul class="comp-list">
+                            <li><span class="check-icon">✓</span> Meaningful Rewards</li>
+                            <li><span class="check-icon">✓</span> Premium Experience</li>
+                            <li><span class="check-icon">✓</span> New Rewards Every Month</li>
+                            <li><span class="check-icon">✓</span> Fast, Secure & Hassle-Free</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Card: Security & Trust Panel -->
+            <div class="security-card trust-card">
+                <div class="trust-content">
+                    <h3 class="panel-title">Built for Security & Trust</h3>
+                    <div class="trust-features-grid">
+                        <div class="trust-item">
+                            <div class="trust-icon-box">
+                                <!-- Bank Grade Icon -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </div>
+                            <div class="trust-text">
+                                <h4>Bank Grade Security</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="trust-item">
+                            <div class="trust-icon-box">
+                                <!-- Instant Confirmation Icon -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <div class="trust-text">
+                                <h4>Instant Confirmations</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="trust-item">
+                            <div class="trust-icon-box">
+                                <!-- Fraud Protection Icon -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </div>
+                            <div class="trust-text">
+                                <h4>Advanced Fraud Protection</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="trust-item">
+                            <div class="trust-icon-box">
+                                <!-- Transparent Icon -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                    <path d="M2 12h20"></path>
+                                </svg>
+                            </div>
+                            <div class="trust-text">
+                                <h4>100% Transparent Transactions</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lock Vector side -->
+                <div class="shield-mockup-wrapper">
+                    <svg class="security-lock-svg" width="180" height="180" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Ambient Backlight Glow -->
+                        <circle cx="50" cy="55" r="30" fill="rgba(20, 184, 166, 0.12)" filter="blur(15px)" class="lock-glow"/>
+                        
+                        <!-- Shackle (U-bar) -->
+                        <path d="M30 45V30C30 19 39 10 50 10C61 10 70 19 70 30V45" stroke="rgb(45, 212, 191)" stroke-width="5" stroke-linecap="round" class="lock-shackle"/>
+                        
+                        <!-- Lock Body -->
+                        <rect x="22" y="42" width="56" height="46" rx="12" fill="rgba(20, 184, 166, 0.04)" stroke="rgb(45, 212, 191)" stroke-width="4" class="lock-body"/>
+                        
+                        <!-- Inner Details / Keyhole -->
+                        <circle cx="50" cy="62" r="5" fill="rgb(45, 212, 191)"/>
+                        <path d="M50 67V76" stroke="rgb(45, 212, 191)" stroke-width="2.5" stroke-linecap="round"/>
+                        
+                        <!-- Tech Accent Lines -->
+                        <line x1="32" y1="52" x2="38" y2="52" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.8" stroke-linecap="round"/>
+                        <line x1="62" y1="52" x2="68" y2="52" stroke="rgba(45, 212, 191, 0.4)" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section" id="story">
+        <div class="story-container">
+            <div class="story-left">
+                <h2 class="story-title">
+                    the story of KirayaPe<br>
+                    begins with trust.
+                </h2>
+            </div>
+            <div class="story-right">
+                <p>For years, paying rent has been one of life's biggest responsibilities. Yet, for millions of renters, it has remained just another monthly transaction expected, <span class="story-highlight">unnoticed, and rarely appreciated.</span></p>
+                <p>We believed it deserved more.</p>
+                <p>Because showing up every month, managing your commitments, and <span class="story-highlight">paying your rent on time</span> says something about who you are. It reflects consistency, responsibility, and reliability.</p>
+                <p>We thought people who do the right thing, month after month, <span class="story-highlight">should be rewarded for it.</span></p>
+                <p>So, <span class="story-highlight">we built KirayaPe.</span></p>
+                <p>A platform that transforms everyday rent payments into meaningful rewards and experiences. A place where being responsible doesn't go unnoticed, and where your monthly commitments work a little harder for you.</p>
+                <p>We're just getting started.</p>
+                <p>If you're here, chances are you believe that paying rent shouldn't only be about meeting an obligation it should come with something in return.</p>
+                <p class="story-welcome">Welcome to KirayaPe.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <!-- FAQs Toggle Bar -->
+        <button class="faq-toggle-bar" aria-label="Toggle FAQs list">
+            <span class="faq-toggle-text">
+                FAQ's 
+                <span class="faq-toggle-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+            </span>
+        </button>
+        
+        <!-- Collapsible Content Wrapper -->
+        <div class="faq-content-wrapper">
+            <div class="faq-inner-container">
+                <h2 class="faq-main-title">FAQ's</h2>
+                
+                <div class="faq-list">
+                    <!-- Item 1 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">How does KirayaPe work?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                KirayaPe allows you to pay your monthly rent securely through our platform. Once your payment is successful, you can unlock and redeem exciting rewards from our partner brands.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Will my landlord receive the full rent amount?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Yes. Your landlord receives the rent amount as specified by you during the payment process. KirayaPe ensures timely and secure transfers.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">What rewards can I earn through KirayaPe?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Members can earn cashback, exclusive discount vouchers, and loyalty points from leading brands like Jockey, IKEA, Domino's, and Marks & Spencer on every rent payment.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 4 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Are rewards guaranteed on every rent payment?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Yes, every rent payment processed successfully via KirayaPe qualifies for guaranteed reward points, along with entry into our weekly luxury member draws.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 5 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Is it safe to pay rent through KirayaPe?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Absolutely. We use bank-grade 256-bit encryption and advanced fraud prevention protocols to ensure your transactions and payment details remain completely secure.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 6 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Is there any fee for using KirayaPe?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Setting up an account is completely free. There are no fees for UPI or debit card payments. Credit card rent payments carry a nominal processing fee which is clearly detailed before transaction confirmation.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 7 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Do I need my landlord to sign up on KirayaPe?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                No. Your landlord does not need to register on KirayaPe. We transfer the rent directly to their bank account, and they receive a payment confirmation SMS and email.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 8 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">Can I pay rent using a credit card?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Yes! You can pay your rent using any major credit card, helping you manage cash flow, leverage a credit free period of up to 45 days, and earn card reward points.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 9 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">What happens if my payment fails?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                In the rare event of a transaction failure, your funds are completely safe. Failed transactions are automatically reversed back to your original source of payment within 3-5 business days.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 10 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">How can I track my rent payments?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Once your payment is made, you can view your digital receipts, transaction history, and reward status in the KirayaPe dashboard.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 11 -->
+                    <div class="faq-item">
+                        <button class="faq-question-btn">
+                            <span class="faq-question-text">How can I contact KirayaPe support?</span>
+                            <span class="faq-item-icon">+</span>
+                        </button>
+                        <div class="faq-answer-wrapper">
+                            <div class="faq-answer-content">
+                                Our support team is available 24/7. You can reach out to us via the in-app chat or email us at support@kirayape.com for any questions.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer-section">
+        <div class="footer-container">
+            <!-- Brand Column -->
+            <div class="footer-brand-col">
+                <img src="logo.png" alt="KirayaPe Logo" class="footer-logo">
+                <div class="social-links">
+                    <a href="#" class="social-icon-btn" aria-label="Facebook">
+                        <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="Instagram">
+                        <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="YouTube">
+                        <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.507 9.388.507 9.388.507s7.518 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="LinkedIn">
+                        <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="TikTok">
+                        <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.59 4.23.95 1.18 2.27 2 3.74 2.38v3.9c-1.37-.1-2.72-.56-3.89-1.3-.87-.56-1.61-1.3-2.19-2.17v6.62c.04 2.06-.52 4.14-1.65 5.86-1.57 2.4-4.22 3.91-7.1 3.99-3.23.1-6.42-1.54-8.08-4.32-1.78-2.92-1.67-6.86.32-9.66 1.83-2.61 5.06-4.04 8.24-3.69v4.06c-1.89-.35-3.92.36-5.06 1.95-.98 1.34-1.07 3.23-.23 4.67.88 1.56 2.76 2.48 4.56 2.25 1.78-.17 3.32-1.42 3.73-3.17.15-.6.22-1.22.21-1.84V.02z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Products Column -->
+            <div class="footer-products-col">
+                <h4 class="products-title">Products</h4>
+                <ul class="products-list">
+                    <li><a href="#" class="products-link">Rent Payment Reward</a></li>
+                    <li><a href="#" class="products-link">Get Loan for rent</a></li>
+                    <li><a href="#" class="products-link">Increase Credit Score</a></li>
+                </ul>
+            </div>
+
+            <!-- Company Column -->
+            <div class="footer-products-col">
+                <h4 class="products-title">Company</h4>
+                <ul class="products-list">
+                    <li><a href="#" class="products-link">About us</a></li>
+                    <li><a href="#" class="products-link">Blog</a></li>
+                    <li><a href="#" class="products-link">Careers</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Column -->
+            <div class="footer-products-col">
+                <h4 class="products-title">Support</h4>
+                <ul class="products-list">
+                    <li><a href="#" class="products-link">FAQ's</a></li>
+                    <li><a href="#" class="products-link">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal Column -->
+            <div class="footer-products-col">
+                <h4 class="products-title">Legal</h4>
+                <ul class="products-list">
+                    <li><a href="#" class="products-link">Terms and Conditions</a></li>
+                    <li><a href="#" class="products-link">Legal Policy</a></li>
+                    <li><a href="#" class="products-link">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 KirayaPe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bgImage = document.querySelector('.bg-image');
+            const downloadWidget = document.querySelector('.download-widget');
+
+            // 1. Subtle mouse-move parallax effect for the 3D background image
+            if (bgImage) {
+                window.addEventListener('mousemove', (e) => {
+                    const x = e.clientX / window.innerWidth;
+                    const y = e.clientY / window.innerHeight;
+                    
+                    const moveX = (x - 0.5) * 15;
+                    const moveY = (y - 0.5) * 15;
+                    
+                    bgImage.style.transform = `scale(1.02) translate(${moveX}px, ${moveY}px)`;
+                });
+            }
+
+            // 2. Click feedback for the Download Widget
+            if (downloadWidget) {
+                downloadWidget.addEventListener('click', () => {
+                    console.log('Download widget clicked. Initiating flow...');
+                    downloadWidget.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        downloadWidget.style.transform = 'none';
+                    }, 100);
+                });
+            }
+
+            // 3. Scroll entrance transition for the 'Who We Empower' section
+            const empowerSection = document.querySelector('.empower-section');
+            if (empowerSection) {
+                const observerOptions = {
+                    threshold: 0.15
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            empowerSection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(empowerSection);
+            }
+
+            // 4. Scroll entrance transition for the 'What for Renters' features section
+            const featuresSection = document.querySelector('.features-section');
+            if (featuresSection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            featuresSection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(featuresSection);
+            }
+
+            // 5. Scroll entrance transition for the 'Brands We Love' section
+            const brandsSection = document.querySelector('.brands-section');
+            if (brandsSection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            brandsSection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(brandsSection);
+            }
+
+            // 6. Scroll entrance transition for the 'Audience' section
+            const audienceSection = document.querySelector('.audience-section');
+            if (audienceSection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            audienceSection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(audienceSection);
+            }
+
+            // 7. Scroll entrance transition for the 'AI Flat/PG Finder' section
+            const flatFinderSection = document.querySelector('.flat-finder-section');
+            if (flatFinderSection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            flatFinderSection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(flatFinderSection);
+            }
+
+            // 8. Mobile navigation toggle behavior
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navContainer = document.querySelector('.nav-container');
+
+            if (menuToggle && navContainer) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('open');
+                    navContainer.classList.toggle('open');
+                });
+
+                // Close menu when a link is clicked
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuToggle.classList.remove('open');
+                        navContainer.classList.remove('open');
+                    });
+                });
+            }
+
+            // 9. Smooth scroll for Download App button and Highlight Effect
+            const downloadBtn = document.querySelector('.nav-btn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    menuToggle?.classList.remove('open');
+                    navContainer?.classList.remove('open');
+                    const widget = document.querySelector('.download-widget');
+                    if (widget) {
+                        widget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        widget.style.boxShadow = '0 0 40px rgba(139, 92, 246, 0.8)';
+                        widget.style.borderColor = 'hsl(265, 100%, 75%)';
+                        setTimeout(() => {
+                            widget.style.boxShadow = '';
+                            widget.style.borderColor = '';
+                        }, 2000);
+                    }
+                });
+            }
+
+            // 10. Typing animation effect for the AI Flat Finder input
+            const mockInput = document.querySelector('.ai-mock-input');
+            if (mockInput) {
+                const prompts = [
+                    "Looking for a 1BHK in Koramangala with a balcony, close to cafes, under 25k...",
+                    "Need a premium double-sharing PG in Sector 62 Noida with gym and meals...",
+                    "Search for 2BHK flats in Indiranagar, pet friendly, with power backup..."
+                ];
+                let promptIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                let typingDelay = 80;
+                let erasingDelay = 40;
+                let newTextDelay = 2500;
+
+                function typeEffect() {
+                    const currentPrompt = prompts[promptIndex];
+                    if (isDeleting) {
+                        mockInput.value = currentPrompt.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        mockInput.value = currentPrompt.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+
+                    if (!isDeleting && charIndex === currentPrompt.length) {
+                        isDeleting = true;
+                        setTimeout(typeEffect, newTextDelay);
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        promptIndex = (promptIndex + 1) % prompts.length;
+                        setTimeout(typeEffect, 500);
+                    } else {
+                        setTimeout(typeEffect, isDeleting ? erasingDelay : typingDelay);
+                    }
+                }
+                
+                // Start typing animation once the section is visible
+                const typingObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(typeEffect, 1000);
+                            typingObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                typingObserver.observe(flatFinderSection);
+            }
+
+            // 11. Scroll entrance transition for the 'RentPay' section
+            const rentpaySection = document.querySelector('.rentpay-section');
+            if (rentpaySection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            rentpaySection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(rentpaySection);
+            }
+
+            // 12. Scroll entrance transition for the 'Security' section
+            const securitySection = document.querySelector('.security-section');
+            if (securitySection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            securitySection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(securitySection);
+            }
+
+            // 13. Scroll entrance transition for the 'Story' section
+            const storySection = document.querySelector('.story-section');
+            if (storySection) {
+                const observerOptions = {
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            storySection.classList.add('active');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                observer.observe(storySection);
+            }
+
+            // 14. FAQ Toggle and Accordion Logic
+            const faqToggleBar = document.querySelector('.faq-toggle-bar');
+            const faqContentWrapper = document.querySelector('.faq-content-wrapper');
+
+            if (faqToggleBar && faqContentWrapper) {
+                faqToggleBar.addEventListener('click', () => {
+                    const isOpen = faqToggleBar.classList.toggle('open');
+                    faqContentWrapper.classList.toggle('open');
+                    if (isOpen) {
+                        faqContentWrapper.style.maxHeight = faqContentWrapper.scrollHeight + 'px';
+                        
+                        // Scroll slightly down to focus on title
+                        setTimeout(() => {
+                            faqToggleBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 300);
+                    } else {
+                        faqContentWrapper.style.maxHeight = '0px';
+                    }
+                });
+            }
+
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-question-btn');
+                const answerWrapper = item.querySelector('.faq-answer-wrapper');
+                if (btn && answerWrapper) {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const isActive = item.classList.contains('active');
+                        
+                        // Close other items
+                        faqItems.forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                                const otherAnswer = otherItem.querySelector('.faq-answer-wrapper');
+                                if (otherAnswer) otherAnswer.style.maxHeight = '0px';
+                            }
+                        });
+
+                        if (isActive) {
+                            item.classList.remove('active');
+                            answerWrapper.style.maxHeight = '0px';
+                        } else {
+                            item.classList.add('active');
+                            answerWrapper.style.maxHeight = answerWrapper.scrollHeight + 'px';
+                        }
+
+                        // Re-adjust outer container height after children transition finishes
+                        setTimeout(() => {
+                            if (faqContentWrapper.classList.contains('open')) {
+                                faqContentWrapper.style.maxHeight = faqContentWrapper.scrollHeight + 'px';
+                            }
+                        }, 500);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
