@@ -853,9 +853,8 @@
         }
     </style>
     <style>
-        /* Custom styles for footer subpages */
         .subpage-container {
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
             margin: 0 auto;
             padding: 4rem 4% 8rem 4%;
@@ -863,8 +862,8 @@
         }
         .rich-content-section {
             font-family: var(--font-sans);
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 1.05rem;
+            line-height: 1.85;
             color: var(--text-secondary);
             margin-top: 3rem;
             display: flex;
@@ -1059,12 +1058,33 @@
         .legal-text-block {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
         .legal-text-block h3 {
             color: var(--text-primary);
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             margin-top: 1.5rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+        .legal-text-block h4 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+        .legal-text-block p, .legal-text-block ul {
+            margin-bottom: 0.5rem;
+            font-size: 1.02rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .legal-text-block ul {
+            padding-left: 1.5rem;
+        }
+        .legal-text-block li {
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -1090,26 +1110,53 @@
             <div class="subpage-container">
                 <!-- Hero Section -->
                 <section class="hero-section" style="padding: 3rem 0 1rem 0; text-align: left; align-items: flex-start;">
-                    <h1 class="section-heading" style="max-width: 100%; text-align: left;">User Privacy & Data Protection Policy</h1>
+                    <h1 class="section-heading" style="max-width: 100%; text-align: left; font-size: 56px; line-height: 1.15; font-family: var(--font-serif);">Privacy and Information Security Policy</h1>
                 </section>
                 
                 <!-- Main Subpage Rich Content -->
                 <div class="rich-content-section">
                     
             <div class="legal-text-block">
-                <p>At KirayaPe, user trust is our paramount asset. This Privacy Policy details how we collect, store, utilize, and secure your personal records, rental documents, and financial metrics.</p>
+                <p><strong>Effective Date: June 23, 2026</strong></p>
                 
-                <h3>1. Information We Collect</h3>
-                <p>We collect identity metrics (name, email, verification documents), rental records (contracts, PG guidelines), transit patterns (for AI matching), and transaction data. We do not store raw card PINs or passwords.</p>
+                <p>KirayaPe Fintech Private Limited ("Company", "we", "us", "our") is committed to protecting the privacy, confidentiality, and security of the personal and financial data of our users. This Privacy Policy outlines our data management practices in strict compliance with Section 43A of the Information Technology Act, 2000, the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011 (the "SPDI Rules"), and the Digital Personal Data Protection (DPDP) Act, 2023.</p>
                 
-                <h3>2. Utilization of Records</h3>
-                <p>Data is primarily used to secure rent transfers, verify agreements, run AI location profiling, and personalize reward options. We strictly enforce a no-ad-network disclosure policy; your profiles are never sold to external marketers.</p>
+                <h3>1. Collection of Information</h3>
+                <p>To deliver high-scale rental discovery, payment routing, and loan matching services, we collect the following categories of information:
+                <ul>
+                    <li><strong>Personal Identity Data:</strong> Name, age, email address, physical address, and contact numbers.</li>
+                    <li><strong>Sensitive Personal Data (SPDI):</strong> Bank account numbers, IFSC codes, Aadhaar details, PAN cards, credit scores, transaction histories, and digital signatures.</li>
+                    <li><strong>Documents and Contracts:</strong> Rental agreements, PG rules documents, police NOC verification records, and utility bills.</li>
+                    <li><strong>Device and Location Data:</strong> Device IP address, operating system, geolocation (with permission, to optimize AI matching), and application logs.</li>
+                </ul>
+                </p>
                 
-                <h3>3. AES-256 Storage & Security</h3>
-                <p>Identity records, rent receipts, and contract copies are stored using high-grade AES-256 encryption keys. Databases are hosted in secure local cloud regions to maintain geographic compliance rules.</p>
+                <h3>2. Legal Ground and Purpose of Processing</h3>
+                <p>We process your personal and sensitive data under explicit consent and for legitimate business purposes:
+                <ul>
+                    <li>Completing KYC checks as mandated by RBI Anti-Money Laundering (AML) instructions.</li>
+                    <li>Securing and routing rent payments to the correct landlord accounts.</li>
+                    <li>Evaluating creditworthiness and forwarding application documents to partner NBFCs for Rent Loans.</li>
+                    <li>Generating real-time property matches using our AI Flat & PG Finder algorithms.</li>
+                    <li>Complying with statutory tax reporting (TDS details) and accounting rules.</li>
+                </ul>
+                </p>
                 
-                <h3>4. Your Data Deletion Rights</h3>
-                <p>Users maintain the absolute right to request complete data expungement and account termination. Submit your request via the in-app support console for complete database erasure.</p>
+                <h3>3. Reasonable Security Practices & AES-256 Storage</h3>
+                <p>We implement bank-grade security protocols, including AES-256 encryption for data at rest and TLS 1.3/SSL for data in transit. Sensitive payment credentials (like credit card numbers and CVVs) are tokenized and processed through PCI-DSS compliant partner payment gateways. We never store raw PINs or raw card numbers in our database. All data is housed inside secure cloud instances located in localized data regions within India to ensure sovereign compliance.</p>
+                
+                <h3>4. Sharing and Disclosure of Information</h3>
+                <p>We do not sell, rent, or trade your PII with third-party advertisers. We share information only with:
+                <ul>
+                    <li>**Banking Partners and Payment Gateways** to settle payment transactions.</li>
+                    <li>**RBI-registered NBFC Partners** to process, underwrite, and disburse Rent Loans.</li>
+                    <li>**Credit Information Companies** (Experian, CIBIL, Equifax) for rent payment reporting.</li>
+                    <li>**Law Enforcement and Judiciary** when requested under legal mandates, warrants, or orders issued by the Government of India or courts.</li>
+                </ul>
+                </p>
+                
+                <h3>5. User Rights, Consent Withdrawal, and Data Erasure</h3>
+                <p>In accordance with the DPDP Act, 2023, you hold the right to access, rectify, or request complete erasure of your personal data from our databases. To withdraw consent or request account deletion, please email our Grievance Officer at <strong>privacy@kirayape.com</strong>. Your data will be deleted within 30 business days, subject to legal compliance retentions (such as historical transaction records required for tax audits).</p>
             </div>
         
                 </div>
@@ -1201,7 +1248,6 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Mobile navigation toggle behavior
             const menuToggle = document.querySelector('.menu-toggle');
             const navContainer = document.querySelector('.nav-container');
 
@@ -1211,7 +1257,6 @@
                     navContainer.classList.toggle('open');
                 });
 
-                // Close menu when a link is clicked
                 const navLinks = document.querySelectorAll('.nav-link');
                 navLinks.forEach(link => {
                     link.addEventListener('click', () => {
