@@ -90,7 +90,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 3rem 4% 3rem 4%;
+            padding: 8rem 4% 3rem 4%;
             overflow: hidden;
         }
 
@@ -126,13 +126,22 @@
            Header Styles
            ========================================================================== */
         .header {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            z-index: 10;
+            padding: 1.5rem 4%;
+            z-index: 100;
+            background-color: rgba(5, 5, 5, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: var(--transition-smooth);
         }
 
         /* Logo container (Top Left) */
@@ -1202,7 +1211,7 @@
         }
 
         @media (max-width: 768px) {
-            .hero-container {
+            .hero-container { padding-top: 6.5rem !important;
                 justify-content: flex-start;
                 gap: 3rem;
                 height: auto;
@@ -1212,8 +1221,14 @@
             }
 
             .header {
-                align-items: center;
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
+                padding: 1.2rem 6% !important;
+                background-color: rgba(5, 5, 5, 0.75) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+                align-items: center;
             }
 
             /* Responsive Navigation Styles */
@@ -1660,7 +1675,7 @@
             position: relative;
             width: 100%;
             background-color: var(--bg-color);
-            padding: 6rem 4% 8rem 4%;
+            padding: 6rem 4% 4rem 4%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1927,6 +1942,10 @@
         }
 
         @media (max-width: 768px) {
+            .security-section {
+                padding: 3.5rem 6% 3.5rem 6% !important;
+            }
+
             .security-container {
                 flex-direction: column;
                 gap: 2rem;
@@ -1962,6 +1981,17 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .security-section {
+                padding: 2.2rem 5% 2.2rem 5% !important;
+            }
+
+            .security-card {
+                padding: 2rem 1.5rem;
+                gap: 1.5rem;
+            }
+        }
+
         /* Lock Icon Hover Animations */
         .lock-shackle {
             transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1988,7 +2018,7 @@
             position: relative;
             width: 100%;
             background-color: var(--bg-color);
-            padding: 8rem 6% 10rem 6%;
+            padding: 4rem 6% 8rem 6%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -2066,6 +2096,10 @@
         }
 
         @media (max-width: 768px) {
+            .story-section {
+                padding: 3.5rem 6% !important;
+            }
+
             .story-container {
                 flex-direction: column;
                 gap: 3rem;
@@ -2083,6 +2117,20 @@
             .story-right p {
                 font-size: 0.98rem;
                 line-height: 1.65;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .story-section {
+                padding: 2.2rem 5% !important;
+            }
+
+            .story-container {
+                gap: 2rem;
+            }
+
+            .story-title {
+                font-size: 32px;
             }
         }
 
@@ -2158,6 +2206,33 @@
             display: flex;
             flex-direction: column;
             gap: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .faq-toggle-bar {
+                padding: 2rem 6%;
+            }
+            .faq-inner-container {
+                margin: 1rem auto 5rem auto;
+            }
+            .faq-main-title {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .faq-toggle-bar {
+                padding: 1.5rem 5%;
+            }
+            .faq-toggle-text {
+                font-size: 1.1rem;
+            }
+            .faq-inner-container {
+                margin: 1rem auto 3.5rem auto;
+            }
+            .faq-main-title {
+                font-size: 30px;
+            }
         }
 
         .faq-main-title {
@@ -2437,6 +2512,10 @@
         }
 
         @media (max-width: 768px) {
+            .footer-section {
+                padding: 3.5rem 6% 2.5rem 6% !important;
+            }
+
             .footer-container {
                 flex-direction: column;
                 align-items: center;
@@ -2463,6 +2542,41 @@
                 margin-top: 4rem;
             }
         }
+
+        @media (max-width: 480px) {
+            .footer-section {
+                padding: 2.5rem 5% 1.5rem 5% !important;
+            }
+
+            .footer-container {
+                gap: 2.5rem;
+            }
+
+            .footer-bottom {
+                margin-top: 2.5rem;
+            }
+        }
+    
+        /* Mobile menu open helper classes */
+        body.mobile-menu-open {
+            overflow: hidden !important;
+        }
+        body.mobile-menu-open .main-content,
+        body.mobile-menu-open .download-widget,
+        body.mobile-menu-open .bg-image,
+        body.mobile-menu-open .bg-overlay,
+        body.mobile-menu-open .side-illustration,
+        body.mobile-menu-open .hero-section,
+        body.mobile-menu-open .subpage-container,
+        body.mobile-menu-open main,
+        body.mobile-menu-open section,
+        body.mobile-menu-open footer {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
     </style>
 </head>
 <body>
@@ -3315,6 +3429,11 @@
                 menuToggle.addEventListener('click', () => {
                     menuToggle.classList.toggle('open');
                     navContainer.classList.toggle('open');
+                    if (navContainer.classList.contains('open')) {
+                        document.body.classList.add('mobile-menu-open');
+                    } else {
+                        document.body.classList.remove('mobile-menu-open');
+                    }
                 });
 
                 // Close menu when a link is clicked
@@ -3323,6 +3442,7 @@
                     link.addEventListener('click', () => {
                         menuToggle.classList.remove('open');
                         navContainer.classList.remove('open');
+                        document.body.classList.remove('mobile-menu-open');
                     });
                 });
             }
@@ -3334,6 +3454,7 @@
                     e.preventDefault();
                     menuToggle?.classList.remove('open');
                     navContainer?.classList.remove('open');
+                    document.body.classList.remove('mobile-menu-open');
                     const widget = document.querySelector('.download-widget');
                     if (widget) {
                         widget.scrollIntoView({ behavior: 'smooth', block: 'center' });

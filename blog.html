@@ -97,13 +97,22 @@
            Header Styles (Matching index.html)
            ========================================================================== */
         .header {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 3rem 4% 1rem 4%;
-            z-index: 10;
+            padding: 1.5rem 4%;
+            z-index: 100;
+            background-color: rgba(5, 5, 5, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            
+            transition: var(--transition-smooth);
         }
 
         .logo-container {
@@ -789,7 +798,13 @@
 
         @media (max-width: 768px) {
             .header {
-                padding: 2rem 6%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                padding: 1.2rem 6% !important;
+                background-color: rgba(5, 5, 5, 0.75) !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
             }
 
             .menu-toggle {
@@ -885,13 +900,45 @@
                 font-size: 0.95rem;
             }
         }
+    
+        /* Mobile menu open helper classes */
+        body.mobile-menu-open {
+            overflow: hidden !important;
+        }
+        body.mobile-menu-open .main-content,
+        body.mobile-menu-open .download-widget,
+        body.mobile-menu-open .bg-image,
+        body.mobile-menu-open .bg-overlay,
+        body.mobile-menu-open .side-illustration,
+        body.mobile-menu-open .hero-section,
+        body.mobile-menu-open .subpage-container,
+        body.mobile-menu-open main,
+        body.mobile-menu-open section,
+        body.mobile-menu-open footer {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .subpage-container {
+                padding: 6.5rem 6% 4rem 6% !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .subpage-container {
+                padding: 5.5rem 5% 3rem 5% !important;
+            }
+        }
+    
     </style>
     <style>
         .subpage-container {
             max-width: 950px;
             width: 100%;
             margin: 0 auto;
-            padding: 4rem 4% 8rem 4%;
+            padding: 8rem 4% 8rem 4%;
             animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .rich-content-section {
@@ -1266,6 +1313,11 @@
                 menuToggle.addEventListener('click', () => {
                     menuToggle.classList.toggle('open');
                     navContainer.classList.toggle('open');
+                    if (navContainer.classList.contains('open')) {
+                        document.body.classList.add('mobile-menu-open');
+                    } else {
+                        document.body.classList.remove('mobile-menu-open');
+                    }
                 });
 
                 const navLinks = document.querySelectorAll('.nav-link');
@@ -1273,6 +1325,7 @@
                     link.addEventListener('click', () => {
                         menuToggle.classList.remove('open');
                         navContainer.classList.remove('open');
+                        document.body.classList.remove('mobile-menu-open');
                     });
                 });
             }
