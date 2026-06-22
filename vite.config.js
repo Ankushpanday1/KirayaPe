@@ -22,4 +22,20 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    {
+      name: 'clean-urls',
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          if (req.url) {
+            const [pathname, query] = req.url.split('?');
+            if (pathname && !pathname.includes('.') && pathname !== '/') {
+              req.url = pathname + '.html' + (query ? '?' + query : '');
+            }
+          }
+          next();
+        });
+      }
+    }
+  ]
 })
