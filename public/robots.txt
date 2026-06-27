@@ -1,22 +1,88 @@
+# ==============================
+# AI & Search Bots - Full Access
+# ==============================
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: BingPreview
+Allow: /
+
+User-agent: bingGPT
+Allow: /
+
 User-agent: Googlebot
 Allow: /
 
-User-agent: Bingbot
+User-agent: Google-Extended
 Allow: /
 
-User-agent: Twitterbot
+User-agent: Gemini
 Allow: /
 
-User-agent: facebookexternalhit
+User-agent: ClaudeBot
 Allow: /
 
-User-agent: LinkedInBot
-Allow: /
+# ==============================
+# Default Rules
+# ==============================
 
 User-agent: *
-Allow: /
 
-# Crawl-delay for general bots (in seconds)
-Crawl-delay: 1
+Disallow: */cs/*
+Disallow: */r/*
+Disallow: */dl/*
+Disallow: */quickView
+Disallow: */zoomImages
+
+Disallow: */search
+Disallow: */portal/*
+Disallow: */admin/*
+Disallow: */dashboard/*
+
+Disallow: */manage-*
+
+Disallow: */general/*plan*
+
+Disallow: */campaigns/*
+Disallow: */offers/*
+Disallow: */promo/*
+Disallow: */gift-*
+
+Disallow: */terms*
+Disallow: */privacy*
+Disallow: */legal-policy*
+
+Disallow: */contactwithchat
+Disallow: */getotp
+Disallow: */registerinterest*
+
+Disallow: */survey/*
+Disallow: */surveys/*
+Disallow: */*survey*
+
+# ==============================
+# Googlebot-Mobile
+# ==============================
+
+User-agent: Googlebot-Mobile
+Disallow: /manage-kirayape/*
+Disallow: /dl/
+Disallow: /contactwithchat
+Disallow: /getotp
+Disallow: /general/*plan*
+Disallow: */survey/*
+Disallow: */surveys/*
+Disallow: */*survey*
+
+# ==============================
+# Sitemap
+# ==============================
 
 Sitemap: https://kirayape.com/sitemap.xml
