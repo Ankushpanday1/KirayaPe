@@ -29,11 +29,23 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
 # ==============================
 # Default Rules
 # ==============================
 
 User-agent: *
+
+# Crawl-delay for general bots (in seconds)
+Crawl-delay: 1
 
 Disallow: */cs/*
 Disallow: */r/*
