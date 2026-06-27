@@ -19,4 +19,4 @@ Allow: /
 # Crawl-delay for general bots (in seconds)
 Crawl-delay: 1
 
-Sitemap: https://productmanagementjob.com/sitemap.xml
+Sitemap: https://kirayape.com/sitemap.xml
